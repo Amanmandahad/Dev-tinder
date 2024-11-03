@@ -1,14 +1,29 @@
-const express = require('express')
+const express = require('express');
+require('./config/database')
+const app = express();
+const connectDb = require('./config/database');
 
-const app = express()
 
-app.use("/test",(req,res)=>{
-    res.send("Hello, test!")
+
+
+
+
+
+
+
+
+
+
+
+
+
+connectDb().then(()=>{
+    console.log('MongoDB connected...');
+}).catch(err=>{
+    console.error('Error connecting to MongoDB:', err);
 })
-app.use("/",(req,res)=>{
-    res.send("Hello, Worldeee!")
-})
 
+app.listen(7000, () => {
+    console.log("Server is running on port 7000");
+});
 
-
-app.listen(7777)
