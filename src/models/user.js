@@ -1,4 +1,4 @@
-import validator from 'validator'
+const validator = require('validator');
 const mongoose = require('mongoose');
 const userSchema = new mongoose.Schema({
   firstName: {
@@ -13,7 +13,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     minLength: 4,
     trim: true,
-    maxLength: 10,
+    maxLength: 20,
   },
   emailId: {
     type: String,
@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     minLength: 5,
     trim: true,
-    maxLength: 10,
+    maxLength: 20,
     required: true,
     validate(value) {
       if (!validator.isStrongPassword(value)) {
@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema({
         throw new Error('Choose a valid gender');
       }
     },
-    minLength: 5,
+    minLength: 4,
     trim: true,
     maxLength: 10,
     required: true,
