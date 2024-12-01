@@ -30,9 +30,9 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    minLength: 5,
+    minLength: 8,
     trim: true,
-    maxLength: 20,
+    maxLength: 100,
     required: true,
     validate(value) {
       if (!validator.isStrongPassword(value)) {
@@ -50,7 +50,7 @@ const userSchema = new mongoose.Schema({
   gender: {
     type: String,
     validate(value) {
-      if (!["male", "female"].includes(value)) {
+      if (!["Male", "Female"].includes(value)) {
         throw new Error('Choose a valid gender');
       }
     },

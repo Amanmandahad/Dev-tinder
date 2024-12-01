@@ -2,13 +2,26 @@ const express = require('express');
 const app = express();
 const connectDb = require('./config/database');
 const User = require('./models/user')
-
+const {validatesignup} = require('./utils/validation')
+const bcrypt = require('bcrypt')
 app.use(express.json());
 
-// Adding data to the database
+// Adding data to the database  Adding data to the database  Adding data to the database  
 app.post('/signup', async (req, res) => {
-   const user = new User(req.body);
    try{
+    validatesignup(req)
+
+    const { firstName,lastName,emailId, password,gender,age} = req.body;
+    const passwordhash = await bcrypt.hash(password,10)
+
+    const user = new User({
+      firstName,
+      lastName,
+      emailId,
+      password:  passwordhash,
+      gender,
+      age
+    });
     await user.save();
     res.send('User added successfully');
    }catch (err){
@@ -16,7 +29,32 @@ app.post('/signup', async (req, res) => {
    }
 })
 
-// Getting 1  user by lastname
+
+
+// checking the user login  checking the user login checking the user login
+app.post('/login', async (req, res) => {
+  try {
+    const { emailId, password } = req.body;
+    const user = await User.findOne({ emailId });
+
+    if (!user) {
+      throw new Error("Invalid credentials");
+    }
+    const ispassword = await bcrypt.compare(password, user.password);
+    if (ispassword) {
+      res.send('Logged in successfully');
+    } else {
+      throw new Error("Invalid credentials");
+    }
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+});
+
+
+
+
+// Getting 1  user by lastname Getting 1  user by lastname  Getting 1  user by lastname
 app.get('/user', async(req,res)=>{
 const userlastname = req.body.lastname;
 try{
@@ -27,7 +65,8 @@ try{
 }
 })
 
-// getting all the users 
+
+// getting all the users  getting all the users  getting all the users  getting all the users 
 app.get('/feed',async(req,res)=>{
   try{
     const allusers = await User.find({})
@@ -37,18 +76,12 @@ app.get('/feed',async(req,res)=>{
   }
 })
 
-// Getting 1 the  by id
-app.get('/id',async(req,res)=>{
-  const id = req.body.id;
-  try{
-const userid = await User.findOne({id:id})
-    res.send(userid);
-  }catch(err){
-    res.status(400).json({message: err.message});
-  }
-})
 
-// deleting user
+// Getting 1 user the  by id Getting 1 user the  by id Getting 1 user the  by id Getting 1 user the  by id
+app
+
+
+//  deleting user deleting user deleting user deleting user
 app.delete('/user', async (req, res) => {
   const userId = req.body.userId;
   try {
@@ -59,8 +92,8 @@ app.delete('/user', async (req, res) => {
   }
 });
 
-// Updating the user
 
+// Updating the user Updating the user Updating the user
 app.patch('/user', async(req,res)=>{
   const userId = req.body.userId;
 const data = req.body
@@ -84,6 +117,9 @@ const data = req.body
 
   }
 })
+
+
+
 
 connectDb().then(()=>{
   console.log('Connected to MongoDB');
