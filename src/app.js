@@ -6,7 +6,7 @@ const {validatesignup} = require('./utils/validation')
 const bcrypt = require('bcrypt')
 app.use(express.json());
 
-// Adding data to the database  Adding data to the database  Adding data to the database  
+// Adding data to the database  Adding data to the database  Adding data to the databasessss
 app.post('/signup', async (req, res) => {
    try{
     validatesignup(req)
@@ -23,7 +23,7 @@ app.post('/signup', async (req, res) => {
       age
     });
     await user.save();
-    res.send('User added successfully');
+    res.send('User added successfullyyyyyyyy');
    }catch (err){
     res.status(400).json({message: err.message});
    }
