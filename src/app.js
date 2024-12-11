@@ -8,10 +8,14 @@ app.use(express.json());
 
 // Adding data to the database  Adding data to the database  Adding data to the databasessss
 app.post('/signup', async (req, res) => {
+  
    try{
     validatesignup(req)
-
-    const { firstName,lastName,emailId, password,gender,age} = req.body;
+    const { firstName,lastName,emailId, password,gender,
+      age,
+      skills,
+      photoUrl,
+      about,} = req.body;
     const passwordhash = await bcrypt.hash(password,10)
 
     const user = new User({
@@ -20,7 +24,10 @@ app.post('/signup', async (req, res) => {
       emailId,
       password:  passwordhash,
       gender,
-      age
+      age,
+      skills,
+      photoUrl,
+      about,
     });
     await user.save();
     res.send('User added successfully');
@@ -30,18 +37,19 @@ app.post('/signup', async (req, res) => {
 })
 
 
-
 // checking the user login  checking the user login checking the user login
 app.post('/login', async (req, res) => {
   try {
     const { emailId, password } = req.body;
-    const user = await User.findOne({ emailId });
+    const user = await User.findOne({ emailId: emailId});
 
     if (!user) {
       throw new Error("Invalid credentials");
     }
     const ispassword = await bcrypt.compare(password, user.password);
     if (ispassword) {
+
+      
       res.send('Logged in successfully');
     } else {
       throw new Error("Invalid credentials");
@@ -55,14 +63,15 @@ app.post('/login', async (req, res) => {
 
 
 // Getting 1  user by lastname Getting 1  user by lastname  Getting 1  user by lastname
-app.get('/user', async(req,res)=>{
-const userlastname = req.body.lastname;
-try{
-  const user =  await User.findOne({lastName:userlastname})
-  res.send(user); 
-}catch(err){
-  res.status(400).json({message: err.message});
-}
+app.get('/user',async (req, res)=>{
+  try{
+    const   userlastname = req.body.lastname
+  const user = await User.findOne({lastname: userlastname})
+  res.send(user);
+  } catch (error){
+    res.status(400).json({message: err.message});
+  }
+
 })
 
 
@@ -103,6 +112,7 @@ const data = req.body
     const isUpdaredAllowed = Object.keys(data).every((k) =>
         Allowedupdates.includes(k));  
     if(!isUpdaredAllowed){
+
      throw new Error("Updates not allowed")
     }
     if(data?.skills.length > 10){

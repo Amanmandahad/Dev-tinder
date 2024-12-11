@@ -43,8 +43,7 @@ const userSchema = new mongoose.Schema({
   age: {
     type: Number,
     min: 18,
-    trim: true,
-    maxLength: 2,
+    max: 100,
     required: true,
   },
   gender: {
@@ -54,11 +53,12 @@ const userSchema = new mongoose.Schema({
         throw new Error('Choose a valid gender');
       }
     },
-    minLength: 4,
-    trim: true,
     maxLength: 10,
     required: true,
   },
+
+
+  
   about: {
     type: String,
     default: "This is a default value",
