@@ -4,6 +4,7 @@ const connectDb = require('./config/database');
 const User = require('./models/user')
 const {validatesignup} = require('./utils/validation')
 const bcrypt = require('bcrypt')
+
 app.use(express.json());
 
 // Adding data to the database  Adding data to the database  Adding data to the databasessss
@@ -75,21 +76,6 @@ app.get('/user',async (req, res)=>{
 })
 
 
-// getting all the users  getting all the users  getting all the users  getting all the users 
-app.get('/feed',async(req,res)=>{
-  try{
-    const allusers = await User.find({})
-    res.send(allusers);  
-  }catch(err){
-    res.status(400).json({message: err.message});
-  }
-})
-
-
-// Getting 1 user the  by id Getting 1 user the  by id Getting 1 user the  by id Getting 1 user the  by id
-app
-
-
 //  deleting user deleting user deleting user deleting user
 app.delete('/user', async (req, res) => {
   const userId = req.body.userId;
@@ -127,6 +113,27 @@ const data = req.body
 
   }
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
