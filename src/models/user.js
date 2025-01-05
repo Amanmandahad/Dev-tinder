@@ -1,87 +1,26 @@
-const validator = require('validator');
 const mongoose = require('mongoose');
+
 const userSchema = new mongoose.Schema({
-  firstName: {
-    type: String,
-    required: true,
-    minLength: 4,
-    trim: true,
-    maxLength: 10,
+  firstName : {
+    type : String,
   },
-  lastName: {
-    type: String,
-    required: true,
-    minLength: 4,
-    trim: true,
-    maxLength: 20,
+  lastName : {
+    type : String,
   },
-  emailId: {
-    type: String,
-    minLength: 4,
-    required: true,
-    unique: true,
-    lowercase: true,
-    trim: true,
-    validate(value) {
-      if (!validator.isEmail(value)) {
-        throw new Error('Invalid email address');
-      }
-    }
+  emailId : {
+    type : String,
   },
-  password: {
-    type: String,
-    minLength: 8,
-    trim: true,
-    maxLength: 100,
-    required: true,
-    validate(value) {
-      if (!validator.isStrongPassword(value)) {
-        throw new Error("Enter a strong password");
-      }
-    }
+  password : {
+    type : String,
   },
-  age: {
-    type: Number,
-    min: 18,
-    trim: true,
-    max: 100,
-    // required: true,
+  age : {
+      type : Number,
   },
-  gender: {
-    type: String,
-    validate(value) {
-      if (!["Male","male","female","Female"].includes(value))  {
-        throw new Error("Gender must be entered")     
-      }
-    },
-    maxLength: 10,
-    trim: true,
-    // required: true,
-  },
-
-
-  
-  about: {
-    type: String,
-    default: "This is a default value",
-  },
-  skills: {
-    type: [String],
-    trim: true,
-    required: true,
-   
-  },
-  photoUrl: {
-    type: String,
-    validate(value) {
-      if (!validator.isURL(value)) {
-        throw new Error('Invalid photo URL');
-      }
-    }
+  gender : {
+    type : String,
   }
-}, {
-  timestamps: true,
-});
+})
 
-const User = mongoose.model('User', userSchema);
+
+const User = mongoose.model('User',userSchema);
 module.exports = User;
