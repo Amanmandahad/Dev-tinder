@@ -45,7 +45,7 @@ const userSchema = new mongoose.Schema({
     min: 18,
     trim: true,
     max: 100,
-    required: true,
+    // required: true,
   },
   gender: {
     type: String,
@@ -56,7 +56,7 @@ const userSchema = new mongoose.Schema({
     },
     maxLength: 10,
     trim: true,
-    required: true,
+    // required: true,
   },
 
 
