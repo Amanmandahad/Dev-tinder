@@ -8,11 +8,16 @@ const jwt = require("jsonwebtoken")
 authRouter.post('/signup', async (req, res)=>{
     try {
       validatesignup(req);
-      const {firstName, lastName, emailId,password} = req.body;
+      const {firstName, lastName, emailId,password,gender,skills,photoUrl,about,age} = req.body;
       const hashedPassword = await bcrypt.hash(password, 10);
       const user = new User(
         {
           firstName ,
+          skills,
+          gender,
+          photoUrl,
+          about,
+          age ,
           lastName,
           emailId,
           password: hashedPassword,
@@ -51,6 +56,13 @@ authRouter.post('/login', async(req, res) => {
   })
 
 
+  // Logout api // Logout api // Logout api // Logout api // Logout api  // Logout api // Logout api // Logout api // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api  // Logout api
+authRouter.post('/logout',async (req,res) =>{
+  res.cookie("token",null,{
+    expires: new Date(Date.now()),
+  }),
+  res.send("Logged out successfully");
+} )
 
 
 module.exports = authRouter;

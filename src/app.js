@@ -13,7 +13,7 @@ const requestRouter = require('./routes/requests')
 
 app.use('/',authRouter);
 app.use('/',profileRouter);
-app.use('/requests',requestRouter);
+app.use('/',requestRouter);
 
 
 

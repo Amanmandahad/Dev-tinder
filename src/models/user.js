@@ -57,11 +57,14 @@ const userSchema = new mongoose.Schema({
         throw new Error("Gender should be male, female or others");
       }
     }
+  
   },
 
 
  skills : {
   type: [String],
+  maxlength: 10,
+
  },
 
   photoUrl: {
