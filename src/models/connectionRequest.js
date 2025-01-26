@@ -4,6 +4,7 @@ const connectionRequestSchema = mongoose.Schema(
     {
       fromUserId : {
         type : mongoose.Schema.Types.ObjectId,
+        ref : "User",
         required : true,        
       },
       
@@ -13,9 +14,11 @@ const connectionRequestSchema = mongoose.Schema(
       },
 
        status : {
+        type : String,
         required : true,
+        
         enum : {
-            values : ["ignore","interested","accepted","rejected"],
+            values : ["ignored","interested","accepted","rejected"],
             message : `{value} is incorrect status type}`
         }
        }
@@ -23,8 +26,28 @@ const connectionRequestSchema = mongoose.Schema(
     { timestamps: true }
 )
 
-const ConnectionRequest = mongoose.model("ConnectionRequestSchema",connectionRequestSchema)
- module.exports = ConnectionRequest;
+
+connectionRequestSchema.index({fromUserId : 1,toUserId: 1})
+
+connectionRequestSchema.pre("save",function(next){
+  const connectionrequest = this;
+  if(connectionrequest.fromUserId.equals(connectionrequest.toUserId)){
+    throw new Error("Request cannot be sent to yourself")
+  }
+  next();
+})
+
+
+
+
+
+
+
+
+
+
+const ConnectionRequestmodel = mongoose.model("ConnectionRequestSchema",connectionRequestSchema)
+ module.exports = ConnectionRequestmodel;
 
 
 //In the above code, we are defining a schema for connection requests.

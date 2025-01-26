@@ -18,8 +18,7 @@ const userSchema = new mongoose.Schema({
 
   emailId: {
     type: String,
-    unique: true,
-    
+    unique: true, 
     trim: true,
     required: true,
     lowercase: true,
@@ -84,6 +83,11 @@ const userSchema = new mongoose.Schema({
 },{
   timestamps : true,
 });
+
+userSchema.index({firstName : 1, lastName : 1});
+
+
+
 
 
 module.exports = mongoose.model('User',userSchema);
